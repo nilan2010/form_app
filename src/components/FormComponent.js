@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Row, Col } from 'antd';
 import  Input  from './Input';
 import  Dropdown  from './Dropdown';
 import bussinessInfoArr from '../data/businessInfo.json';
+import TelephoneInput from './TelephoneInput';
 
 //import './FormComponent.css';
 const FormComponent = () => {
@@ -36,7 +37,9 @@ const FormComponent = () => {
     });
   };
   
-
+  useEffect(() => {
+    updateFormData( bussinessInfo );
+  }, []);
 
    const handleSubmit = (event) => {
     event.preventDefault();
@@ -195,13 +198,14 @@ const FormComponent = () => {
           </Row>
           <Row >
             <Col align="left"   span={7}>
-                <Input type="tel"  label="Land Line" name="landLine" value={landLine} onChange={handleChange}/>
+                <TelephoneInput label="Land Line" name="landLine" value={landLine} onChange={handleChange} />
             </Col>
             <Col align="left"   span={1}>
                 &nbsp;
             </Col>
             <Col align="left"   span={7}>
-                <Input type="text" label="Mobile Number" name="mobileNumber" value={mobileNumber} onChange={handleChange}/>
+               
+                <TelephoneInput  label="Mobile Number" name="mobileNumber" value={mobileNumber} onChange={handleChange}/>
             </Col>
             <Col align="left"   span={1}>
                 &nbsp;
@@ -233,7 +237,7 @@ const FormComponent = () => {
                 &nbsp;
             </Col>
             <Col align="left"   span={4}>
-                <input type="submit" value="Save"/> 
+                <input type="submit" value="Save" /> 
             </Col>
           </Row>
             

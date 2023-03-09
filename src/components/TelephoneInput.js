@@ -1,22 +1,44 @@
-import React, { useState } from 'react';
-import InputMask from 'react-input-mask';
+import React, { useState,useEffect } from 'react';
+import phoneCountryCodes from '../data/phoneCountryCodes.json';
 
-const TelephoneInput = ({ value, onChange }) => {
+const TelephoneInput = ({ label,selectedCountry,name,value,pattern,placeholder='', onChange }) => {
   const [formattedValue, setFormattedValue] = useState(value);
+  const [selectedValue, setSelectedValue] = useState(selectedCountry);
+  const [telNumber, setTelNumber] = useState();
+
 
   const handleChange = (event) => {
-    const inputValue = event.target.value;
-    setFormattedValue(inputValue);
-    onChange(inputValue);
+    setFormattedValue(event.target.value);
+    onChange( selectedValue + " " +formattedValue ,name);
   };
 
+  const handleCountryCodeChange = (event) => {
+    setSelectedValue( event.target.value);
+    onChange( selectedValue + " " +formattedValue ,name);
+  };
+
+ 
   return (
-    <InputMask
-      mask="(999) 999-9999"
+    <div>
+      <label>{label}</label><br/>
+    <select className='countryCode' id="countryCode" value={selectedValue} onChange={handleCountryCodeChange}>
+          {phoneCountryCodes.map((option) => (
+            <option key={option.code}  value={option.code}  >
+              {option.country + " " + option.code}
+            </option>
+          ))}
+      </select>
+      <input className='phoneNumber'
+      name={name}
       value={formattedValue}
       onChange={handleChange}
-      placeholder="(123) 456-7890"
+      placeholder={placeholder}
+      type="tel"
+      pattern={pattern}
+      
     />
+  
+    </div>
   );
 };
 
